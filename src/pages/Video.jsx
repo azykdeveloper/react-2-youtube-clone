@@ -1,6 +1,5 @@
-import PlayVideo from '../../components/play_video/play_video';
-import Recomended from '../../components/recomended/recomended';
-import './video.css'
+import PlayVideo from '../components/PlayVideo';
+import Recomended from '../components/Recomended';
 
 function Video() {
   return (
