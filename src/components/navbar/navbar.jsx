@@ -1,73 +1,42 @@
-import "./navbar.css";
-import { logo } from "../../constants";
-import { Link } from "react-router";
-import {
-  Stack,
-  Paper,
-  InputBase,
-  IconButton,
-  useMediaQuery,
-  Box,
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import './navbar.css'
+import logo from '../../assets/logo.png'
+import menu_icon from '../../assets/menu.png'
+import search_icon from '../../assets/search.png'
+import upload_icon from '../../assets/upload.png'
+import more_icon from '../../assets/more.png'
+import notification_icon from "../../assets/notification.png";
+import profile_icon from "../../assets/jack.png";
 
-function Input({ isMobile }) {
+
+function Navbar() {
   return (
-    <Paper
-      component="form"
-      sx={{
-        p: "2px 14px",
-        display: "flex",
-        alignItems: "center",
-        width: isMobile ? "100%" : 500,
-        borderRadius: 20,
-        mt: isMobile ? 1 : 0,
-      }}
-    >
-      <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="Search..."
-        inputProps={{ "aria-label": "search" }}
-      />
-      <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-        <SearchIcon />
-      </IconButton>
-    </Paper>
+    <nav className="flex justify-between items-center shadow sticky top-0 z-10 bg-white py-2.5 px-[2%]">
+      <div className="flex items-center">
+        <img className=" h-4 w-4 mr-6" src={menu_icon} alt="menu" />
+        <img className=" h-6 " src={logo} alt="logo" />
+      </div>
+
+      <div className="flex items-center border border-[#ccc] rounded-3xl px-5 py-2 w-[450px] bg-white">
+        <input
+          className="flex-1 outline-none border-none bg-transparent"
+          type="text"
+          placeholder="Search"
+        />
+        <img src={search_icon} alt="search" className="w-5 h-5 ml-2" />
+      </div>
+
+      <div className="flex items-center gap-5">
+        <img className="w-6 h-6" src={upload_icon} alt="upload" />
+        <img className="w-6 h-6" src={more_icon} alt="more" />
+        <img className="w-6 h-6" src={notification_icon} alt="notification" />
+        <img
+          className="rounded-full w-8 h-8"
+          src={profile_icon}
+          alt="profile"
+        />
+      </div>
+    </nav>
   );
 }
 
-export default function Navbar() {
-  const isMobile = useMediaQuery("(max-width:600px)");
-
-  return (
-    <Stack
-      direction={isMobile ? "column" : "row"}
-      alignItems="center"
-      justifyContent={isMobile ? "flex-start" : "space-between"}
-      spacing={isMobile ? 2 : 0}
-      p={2}
-      sx={{
-        position: "sticky",
-        top: 0,
-        zIndex: 999,
-        backgroundColor: "#fff",
-      }}
-    >
-      <Link to={"/"}>
-        <img src={logo} alt="logo" height={30} />
-      </Link>
-
-      {/* Input markazda bo'lishi uchun Box bilan o'ralgan */}
-      {!isMobile && (
-        <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-          <Input isMobile={isMobile} />
-        </Box>
-      )}
-
-      {/* Mobile versiyada to'g'ridan-to'g'ri qo'yiladi */}
-      {isMobile && <Input isMobile={isMobile} />}
-
-      <span></span>
-    </Stack>
-  );
-}
+export default Navbar;
