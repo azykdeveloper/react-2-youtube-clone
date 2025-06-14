@@ -8,11 +8,11 @@ import notification_icon from "../../assets/notification.png";
 import profile_icon from "../../assets/jack.png";
 
 
-function Navbar() {
+function Navbar({setSidebar}) {
   return (
     <nav className="flex justify-between items-center shadow sticky top-0 z-10 bg-white py-2.5 px-[2%]">
       <div className="flex items-center">
-        <img className=" h-4 w-4 mr-6" src={menu_icon} alt="menu" />
+        <img onClick={() => setSidebar(prev => !prev)} className=" h-4 w-4 mr-6" src={menu_icon} alt="menu" />
         <img className=" h-6 " src={logo} alt="logo" />
       </div>
 
