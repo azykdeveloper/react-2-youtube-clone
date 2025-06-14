@@ -15,12 +15,14 @@ function Recomended({ categoryId }) {
   };
 
   useEffect(() => {
-    fetchData();
+    if (categoryId) {
+      fetchData();
+    }
   }, [categoryId]);
 
   return (
     <div className="basis-full md:basis-[30%]">
-      {apiData.map((video) => (
+      {apiData?.map((video) => (
         <Link to={`/watch/${video.snippet.categoryId}/${video.id}`} key={video.id} className="flex justify-between mb-2">
           <img
             className="basis-[49%] w-1/2"

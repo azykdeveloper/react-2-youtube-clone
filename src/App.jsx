@@ -14,7 +14,7 @@ function App() {
       
       <Routes>
         <Route path="/" element={<Home sidebar={sidebar} />} />
-        <Route path="/watch/:categoryId/:videoId" element={<Watch />} />
+        <Route path="/watch/:categoryId?/:videoId" element={<Watch />} />
         <Route path="/search/:query" element={<Search />} />
       </Routes>
     </>

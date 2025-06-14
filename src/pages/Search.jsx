@@ -10,7 +10,7 @@ function Search() {
 
   const fetchData = async () => {
     const response = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${query}&type=video&key=${API_KEY}`
+      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${query}&key=${API_KEY}`
     );
     const data = await response.json();
     console.log(data);
@@ -18,25 +18,25 @@ function Search() {
   };
 
   useEffect(() => {
-    fetchData();
+    if (query) {
+      fetchData();
+    }
   }, [query]);
 
-  return ( 
+  return (
     <div className="p-5">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {searchData.map((video) => (
+        {searchData?.map((video) => (
           <Link
-            to={`/watch/${video.snippet.categoryId}/${video.id}`}
-            key={video.id}
+            to={`/watch/${video.id.videoId}`}
+            key={video.etag}
           >
             <img
               className="rounded-lg w-full"
               src={video.snippet.thumbnails.high.url}
               alt="thumbnail"
             />
-            <h3 className="font-semibold">
-              {video.snippet.title}
-            </h3>
+            <h3 className="font-semibold">{video.snippet.title}</h3>
             <p className="text-sm text-zinc-400">
               {moment(video.snippet.publishedAt).fromNow()}
             </p>
