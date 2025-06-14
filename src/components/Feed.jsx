@@ -1,41 +1,51 @@
-import { Link } from 'react-router'
-import thumbnail1 from '../assets/thumbnail1.png'
-import thumbnail2 from '../assets/thumbnail2.png'
-import thumbnail3 from '../assets/thumbnail3.png'
-import thumbnail4 from '../assets/thumbnail4.png'
-import thumbnail5 from '../assets/thumbnail5.png'
-import thumbnail6 from '../assets/thumbnail6.png'
-import thumbnail7 from '../assets/thumbnail7.png'
-import thumbnail8 from '../assets/thumbnail8.png'
+import { Link } from "react-router";
+import { API_KEY, value_converter } from "../data";
+import { useEffect, useState } from "react";
+import moment from "moment";
 
+function Feed({ category }) {
+  const [data, setData] = useState([]);
 
-function Feed() {
+  const fetchData = async () => {
+    const response = await fetch(
+      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=50&regionCode=RU&videoCategoryId=${category}&key=${API_KEY}`
+    );
+    const data = await response.json();
+    console.log(data);
+    setData(data.items);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [category]);
+
   return (
-    <div className='grid grid-cols-3 gap-4'>
-      <Link to={'/video/1/3456'}>
-        <img className='rounded-lg' src={thumbnail1} alt="thumbnail" />
-        <h3 className='font-semibold'>
-          Best channel to learn coding that help you to be a web developer
-        </h3>
-        <h4 className='text-sm text-zinc-500 mt-1 '>AzykDeveloper</h4>
-        <p className='text-sm text-zinc-500'>15k views &bull; 2 days ago</p>
-      </Link>
-      <div>
-        <img src={thumbnail2} alt="thumbnail" />
-        <h3>
-          Best channel to learn coding that help you to be a web developer
-        </h3>
-        <h4>AzykDeveloper</h4>
-        <p>15k views &bull; 2 days ago</p>
-      </div>
-      <div>
-        <img src={thumbnail3} alt="thumbnail" />
-        <h3>
-          Best channel to learn coding that help you to be a web developer
-        </h3>
-        <h4>AzykDeveloper</h4>
-        <p>15k views &bull; 2 days ago</p>
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {data.map((video) => (
+        <Link
+          to={`/watch/${video.snippet.categoryId}/${video.id}`}
+          key={video.id}
+        >
+          <img
+            className="rounded-lg w-full"
+            src={video.snippet.thumbnails.high.url}
+            alt="thumbnail"
+          />
+          <h3 className="font-semibold">
+            {video.snippet.title.length > 50
+              ? video.snippet.title.slice(0, 50) + "..."
+              : video.snippet.title}
+          </h3>
+          <h4 className="text-sm text-zinc-500 mt-1 ">
+            {video.snippet.channelTitle}
+          </h4>
+          <p className="text-sm text-zinc-500">
+            {" "}
+            {value_converter(video.statistics.viewCount)} views &bull;{" "}
+            {moment(video.snippet.publishedAt).fromNow()}
+          </p>
+        </Link>
+      ))}
     </div>
   );
 }

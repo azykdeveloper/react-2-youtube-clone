@@ -1,47 +1,43 @@
-import thumbnail1 from "../assets/thumbnail1.png";
-import thumbnail2 from "../assets/thumbnail2.png";
-import thumbnail3 from "../assets/thumbnail3.png";
-import thumbnail4 from "../assets/thumbnail4.png";
-import thumbnail5 from "../assets/thumbnail5.png";
-import thumbnail6 from "../assets/thumbnail6.png";
-import thumbnail7 from "../assets/thumbnail7.png";
-import thumbnail8 from "../assets/thumbnail8.png";
+import { useEffect, useState } from "react";
+import { API_KEY, value_converter } from "../data";
+import { Link } from "react-router";
 
-function Recomended() {
+function Recomended({ categoryId }) {
+  const [apiData, setApiData] = useState([]);
+
+  const fetchData = async () => {
+    const response = await fetch(
+      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=50&regionCode=RU&videoCategoryId=${categoryId}&key=${API_KEY}`
+    );
+    const data = await response.json();
+    console.log(data);
+    setApiData(data.items);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [categoryId]);
+
   return (
-    <div className="basis-[30%]">
-      <div className="flex justify-between mb-2">
-        <img className="basis-[49%] w-1/2" src={thumbnail1} alt="thumbnail" />
-        <div className="basis-[49%] ">
-          <h4 className=" text-sm mb-1 font-semibold">Best youtube channel to learn web development</h4>
-          <p>AzykDeveloper</p>
-          <p>199K views</p>
-        </div>
-      </div>
-      <div className="flex justify-between mb-2">
-        <img className="basis-[49%] w-1/2" src={thumbnail1} alt="thumbnail" />
-        <div className="basis-[49%] ">
-          <h4 className=" text-sm mb-1 font-semibold">Best youtube channel to learn web development</h4>
-          <p>AzykDeveloper</p>
-          <p>199K views</p>
-        </div>
-      </div>
-      <div className="flex justify-between mb-2">
-        <img className="basis-[49%] w-1/2" src={thumbnail1} alt="thumbnail" />
-        <div className="basis-[49%] ">
-          <h4 className=" text-sm mb-1 font-semibold">Best youtube channel to learn web development</h4>
-          <p>AzykDeveloper</p>
-          <p>199K views</p>
-        </div>
-      </div>
-      <div className="flex justify-between mb-2">
-        <img className="basis-[49%] w-1/2" src={thumbnail1} alt="thumbnail" />
-        <div className="basis-[49%] ">
-          <h4 className=" text-sm mb-1 font-semibold">Best youtube channel to learn web development</h4>
-          <p>AzykDeveloper</p>
-          <p>199K views</p>
-        </div>
-      </div>
+    <div className="basis-full md:basis-[30%]">
+      {apiData.map((video) => (
+        <Link to={`/watch/${video.snippet.categoryId}/${video.id}`} key={video.id} className="flex justify-between mb-2">
+          <img
+            className="basis-[49%] w-1/2"
+            src={video.snippet.thumbnails.medium.url}
+            alt="thumbnail"
+          />
+          <div className="basis-[49%] ">
+            <h4 className=" text-sm mb-1 font-semibold">
+              {video.snippet.title.length > 50
+                ? video.snippet.title.slice(0, 50) + "..."
+                : video.snippet.title}
+            </h4>
+            <p>{video.snippet.channelTitle}</p>
+            <p>{value_converter(video.statistics.viewCount)} views</p>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 }

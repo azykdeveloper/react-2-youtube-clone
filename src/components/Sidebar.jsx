@@ -14,15 +14,15 @@ import megan from '../assets/megan.png'
 import cameron from "../assets/cameron.png";
 
 const sidebarLinks = [
-  { name: "Home", icon: home },
-  { name: "Games", icon: game_icon },
-  { name: "Automobiles", icon: automobiles },
-  { name: "Sports", icon: sports },
-  { name: "Entertainment", icon: entertainment },
-  { name: "Tech", icon: tech },
-  { name: "Music", icon: music },
-  { name: "Blogs", icon: blogs },
-  { name: "News", icon: news },
+  { id: 0, name: "Home", icon: home },
+  { id: 20, name: "Games", icon: game_icon },
+  { id: 2, name: "Automobiles", icon: automobiles },
+  { id: 17, name: "Sports", icon: sports },
+  { id: 24, name: "Entertainment", icon: entertainment },
+  { id: 28, name: "Tech", icon: tech },
+  { id: 10, name: "Music", icon: music },
+  { id: 22, name: "Blogs", icon: blogs },
+  { id: 25, name: "News", icon: news },
 ]
 
 const subscribedList = [
@@ -33,21 +33,24 @@ const subscribedList = [
   { name: "Cameron", icon: cameron },
 ]
 
-function Sidebar({sidebar}) {
+function Sidebar({sidebar, category, setCategory}) {
   return (
     <div
-      className={` h-screen fixed top-0  pt-20 border-r border-r-zinc-200 bg-white  ${
+      className={`no-scrollbar hidden md:block h-screen overflow-auto fixed top-0  pt-20 border-r border-r-zinc-200 bg-white  ${
         sidebar ? "w-[15%]" : "w-[5%]"
       }`}
     >
       <div>
         {sidebarLinks.map((sidebarLink) => (
           <div
+            className={`pl-6 sidebarLink flex items-center gap-3 mb-5 w-fit cursor-pointer flex-wrap text-sm text-zinc-500 `}
             key={sidebarLink.name}
-            className="pl-6 sidebarLink flex items-center gap-3 mb-5 w-fit cursor-pointer flex-wrap text-sm text-zinc-500"
+            onClick={() => setCategory(sidebarLink.id)}
           >
             <img
-              className="w-6 h-6"
+              className={`h-6 pb-1 ${
+                category === sidebarLink.id && "border-b-3 border-red-600"
+              }`}
               src={sidebarLink.icon}
               alt={sidebarLink.name}
             />
@@ -66,7 +69,10 @@ function Sidebar({sidebar}) {
         </h4>
 
         {subscribedList.map((user) => (
-          <div key={user.name} className="sidebarLink pl-6 flex gap-3 mb-4 text-sm text-zinc-500 cursor-pointer">
+          <div
+            key={user.name}
+            className="sidebarLink pl-6 flex gap-3 mb-4 text-sm text-zinc-500 cursor-pointer"
+          >
             <img
               className="w-6 h-6 rounded-full"
               src={user.icon}
