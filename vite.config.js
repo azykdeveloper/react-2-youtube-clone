@@ -6,4 +6,10 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  build: {
+    outDir: "dist",
+  },
+  server: {
+    open: true,
+  },
 });
