@@ -60,8 +60,7 @@ function PlayVideo({ videoId }) {
   return (
     <div className=" basis-full md:basis-[69%]">
       <iframe
-        width={"100%"}
-        style={{ aspectRatio: "16/9" }}
+        className="h-[50vw] md:h-[37vw] w-full"
         src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

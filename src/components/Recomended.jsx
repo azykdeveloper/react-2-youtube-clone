@@ -21,7 +21,7 @@ function Recomended({ categoryId }) {
   }, [categoryId]);
 
   return (
-    <div className="basis-full md:basis-[30%]">
+    <div className="basis-[30%]">
       {apiData?.map((video) => (
         <Link to={`/watch/${video.snippet.categoryId}/${video.id}`} key={video.id} className="flex justify-between mb-2">
           <img

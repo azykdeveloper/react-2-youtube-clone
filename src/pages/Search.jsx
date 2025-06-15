@@ -24,8 +24,8 @@ function Search() {
   }, [query]);
 
   return (
-    <div className="p-5">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="px-[2%] py-5">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {searchData?.map((video) => (
           <Link
             to={`/watch/${video.id.videoId}`}
@@ -36,10 +36,12 @@ function Search() {
               src={video.snippet.thumbnails.high.url}
               alt="thumbnail"
             />
-            <h3 className="font-semibold">{video.snippet.title}</h3>
+            <div>
+            <span className="font-semibold">{video.snippet.title}</span>
             <p className="text-sm text-zinc-400">
               {moment(video.snippet.publishedAt).fromNow()}
             </p>
+            </div>
           </Link>
         ))}
       </div>
